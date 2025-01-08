@@ -1,11 +1,8 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  experimental: {
-    serverActions: true,
+module.exports = {
+  plugins: {
+    'postcss-import': {},
+    'tailwindcss': {},
+    'autoprefixer': {},
+    // 必要に応じて他のプラグインを追加
   },
-  images: {
-    domains: ['ilauhlxytqtrbvjxmhne.supabase.co'],
-  },
-};
-
-module.exports = nextConfig;
+}
