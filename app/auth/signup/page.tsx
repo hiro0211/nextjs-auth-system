@@ -1,10 +1,10 @@
 import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { redirect } from "next/navigation";
-import Signup from "@/app/auth/signup/page";
 import type { Database } from "@/lib/database.types";
+import { Signup } from "@/app/components/signup";
 
-const SignupPage = async () => {
+export const SignupPage = async () => {
   const supabase = createServerComponentClient<Database>({
     cookies,
   });
@@ -12,13 +12,18 @@ const SignupPage = async () => {
   // セッションを取得
   const {
     data: { session },
+    error,
   } = await supabase.auth.getSession();
+
+  if (error) {
+    console.error("Failed to fetch session:", error.message);
+  }
 
   if (session) {
     redirect("/");
   }
 
-  return <Signup />;
+  return <Signup/>;
 };
 
 export default SignupPage;

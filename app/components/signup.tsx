@@ -18,7 +18,7 @@ const schema = z.object({
   password: z.string().min(6, { message: "6文字以上入力する必要があります。" }),
 });
 
-const Signup = () => {
+export const Signup = () => {
   const router = useRouter();
   const supabase = createClientComponentClient<Database>();
   const [loading, setLoading] = useState(false);
