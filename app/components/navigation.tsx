@@ -22,7 +22,7 @@ const Navigation = ({ session, profile }: {
       introduce: profile? profile.introduce : '',
       avatar_url: profile? profile.avatar_url : '',
     })
-  }, [profile]);
+  }, [session, setUser, profile]);
 
   return (
     <header className="shadow-lg shadow-gray-100">
