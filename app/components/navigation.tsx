@@ -36,7 +36,7 @@ const Navigation = ({ session, profile }: {
         {/* 右側のリンク */}
         <div className="text-sm font-bold flex items-center space-x-5">
           {session ? (
-            <Link href="/setting/profile">Profile</Link>
+            <Link href="/settings/profile">プロフィール</Link>
           ) : (
             <>
               <Link href="/auth/login">ログイン</Link>
