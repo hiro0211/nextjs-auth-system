@@ -1,19 +1,20 @@
 'use server'
 
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
-import Navigation from './navigation';
-import type { Database } from '@/lib/database.types';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
+import Navigation from './navigation'
+import type { Database } from '@/lib/database.types'
 
 // 認証状態の監視
 const SupabaseListener = async () => {
-  const supabase = createServerComponentClient<Database>({ cookies });
+  const supabase = createServerComponentClient<Database>({ cookies })
 
   // セッションの取得
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await supabase.auth.getSession()
 
+  // プロフィールの取得
   let profile = null
 
   if (session) {
@@ -21,22 +22,25 @@ const SupabaseListener = async () => {
       .from('profiles')
       .select('*')
       .eq('id', session.user.id)
-      .single();
+      .single()
 
-    profile = currentProfile;
+    profile = currentProfile
 
+    // メールアドレスを変更した場合、プロフィールを更新
     if (currentProfile && currentProfile.email !== session.user.email) {
-      const { data: updateProfile } = await supabase
+      // メールアドレスを更新
+      const { data: updatedProfile } = await supabase
         .from('profiles')
         .update({ email: session.user.email })
         .match({ id: session.user.id })
-        .select();
+        .select('*')
+        .single()
 
-      profile = updateProfile;
+      profile = updatedProfile
     }
   }
 
-  return <Navigation session={session} profile={profile} />;
-};
+  return <Navigation session={session} profile={profile} />
+}
 
-export default SupabaseListener;
+export default SupabaseListener
